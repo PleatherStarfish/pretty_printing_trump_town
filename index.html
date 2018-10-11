@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Timeline with Integers</title>
+  <meta charset="utf-8" />
+</head>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
+
+<body>
+
+  <script>
+
+  const dataset = [[ 5, 12, 0],
+                   [29, 31, 0],
+                   [10, 22, 1],
+                   [15, 17, 2],
+                   [16, 25, 3],
+                   [12, 18, 4],
+                   [20, 29, 5],
+                   [3 , 14, 6],
+                   [1 ,  9, 2]];
+
+  const w               = 1150;
+  const h               = 1150;
+  const padding         = 5;
+  const minBarThickness = 10;
+
+  const svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
+
+  const linearScale = d3.scale.linear()
+       .domain([0, 62])
+       .range([0, 1150]);
+
+  let scaledData = [];
+
+  for (let n = 0; n < dataset.length; n++) {
+       scaledData[n] = [
+                         linearScale(dataset[n][0]),
+                         linearScale(dataset[n][1]),
+                         dataset[n][2]
+                       ];
+  }
+
+
+  svg.selectAll("rect")
+     .data(scaledData)
+     .enter()
+     .append("rect")
+     .attr("x", (d, i) => d[0])
+     .attr("y", (d, i) => d[2] * (minBarThickness + padding))
+     .attr("height", minBarThickness)
+     .attr("width", (d) => d[1])
+     .attr("fill", "grey");
+
+
+  </script>
+
+</body>
+</html>
