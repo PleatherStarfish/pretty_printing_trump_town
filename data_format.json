@@ -1,18 +1,11 @@
 {
   "agency_id": {
     "staffer_id": {
-        "position_title_1": {
-            "start_date": int,
-            "end_date": int
-        },
-        "position_title_2": {
-            "start_date": int,
-            "end_date": int
-        },
-        "position_title_3": {
-            "start_date": int,
-            "end_date": int
-        },
+        "position_title_1": string,
+        "position_title_2": string,
+        "position_title_3": string,
+        "start_date": int,
+        "end_date": int,
         "organization_slug": {
             "organization_type": string,
             "organization_name": string,

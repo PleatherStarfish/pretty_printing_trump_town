@@ -5,94 +5,134 @@
 </head>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
+<script src="data.js" type="text/javascript"></script>
+
 
 <body>
 
   <script>
 
-  const dataset = [[ 5, 12, 0],
-                   [29, 31, 0],
-                   [10, 22, 1],
-                   [15, 17, 2],
-                   [16, 25, 3],
-                   [12, 18, 4],
-                   [20, 29, 5],
-                   [3 , 14, 6],
-                   [1 ,  9, 2]];
+  const dataset_test = [[15, 13, 0], [12, 31, 1], [91, 99, 1]]
 
-  const dataObject = {
-    agency_slug: {
-      position_titles: {
-        position_title_1: {
-          slug: {
-            name:
-            start_date:
-            end_date:
+  const dataset = {
+    "17": {
+      "agency_name": "U.S. Trade Representative",
+      "agency_slug": "u-s-trade-representative",
+      "positions": {
+        "Senior Advisor, Office of the Ambassador": [
+          {
+            "staffer_id": 396,
+            "name": "Yecheil David Feit",
+            "start_date": 14.0,
+            "end_date": NaN
           }
-        }
-        position_title_2: {
-          slug: {
-            name:
-            start_date:
-            end_date:
-          }
-        }
-        position_title_3: {
-          slug: {
-            name:
-            start_date:
-            end_date:
-            }
-          }
-        }
-      }
-    organization_slug:
-    grade_level:
-    organization_slug: {
-      organization_name: {
-        organization_type:
-        position_held:
-        from_date:
-        to_date:
-      }
+        ]
     }
+  },
+  "24": {
+    "agency_name": "Education",
+    "agency_slug": "education",
+    "positions": {
+      "Senior Admin": [
+        {
+          "staffer_id": 100,
+          "name": "Dane Torkai",
+          "start_date": 25.0,
+          "end_date": 56.0
+        }
+      ]
+  }
+}
+}
+
+// ([key, value]) => (
+//     svg.selectAll("rect")
+//        .data(value)
+//        .enter()
+//        .append("rect")
+//        .attr("x", (d, i) => linearScale(value[0]["start_date"] ? value[0]["start_date"] : 1169269200))
+//        .attr("y", (d, i) => i * (minBarThickness + padding))
+//        .attr("height", minBarThickness)
+//        .attr("width", (d, i) => linearScale(value[0]["end_date"] ? value[0]["end_date"] : 1530331200))
+//        .attr("fill", "grey")
+//      )
+
+
+  const w               = 11150;
+  const h               = 11150;
+  const padding         = 15;
+  const minBarThickness = 5;
+
+  let y_index = 0;
+
+  function log(sel,msg) {
+    console.log(msg,sel);
   }
 
-  const w               = 1150;
-  const h               = 1150;
-  const padding         = 5;
-  const minBarThickness = 10;
+  function barCluster(agency) {
+    for (let position in agency["positions"]) {
+
+      for (person in agency["positions"][position]) {
+
+        const one_person = agency["positions"][position][person];
+
+        // convert date format
+        !one_person.start_date ? one_person.start_date : one_person.start_date = new Date(one_person.start_date);
+        !one_person.end_date ? one_person.end_date : one_person.end_date = new Date(one_person.end_date);
+
+        const start_x = linearScale(one_person.start_date ? one_person.start_date : new Date(1169269200));
+        const end_x = linearScale(one_person.end_date ? one_person.end_date : new Date(1530331200));
+
+
+        let bars = svg.selectAll(null)
+           .data([one_person])
+           .enter()
+           .append("g")
+
+        bars.append("rect")
+           .attr("x", start_x)
+           .attr("y", y_index * (minBarThickness + padding))
+           .attr("height", minBarThickness)
+           .attr("width", end_x - start_x)
+           .attr("fill", "grey");
+
+        bars.append("text")
+            .attr("x", end_x)
+            .attr("y", y_index * (minBarThickness + padding))
+            .text((d) => d.name);
+
+        y_index += 1;
+      }
+
+    }
+  }
 
   const svg = d3.select("body")
                 .append("svg")
                 .attr("width", w)
                 .attr("height", h);
 
-  const linearScale = d3.scale.linear()
-       .domain([0, 62])
-       .range([0, 1150]);
+  // [1169269200, 1530331200]
 
-  let scaledData = [];
+  const linearScale = d3.time.scale()
+                .domain([new Date(1169269200), new Date(1530331200)])
+                .range([0, 1150]);
 
-  for (let n = 0; n < dataset.length; n++) {
-       scaledData[n] = [
-                         linearScale(dataset[n][0]),
-                         linearScale(dataset[n][1]),
-                         dataset[n][2]
-                       ];
-  }
+  // Get object back one agency at a time.
+  Object.entries(data).forEach(
+    ([key, value]) => barCluster(value)
+  );
 
 
-  svg.selectAll("rect")
-     .data(scaledData)
-     .enter()
-     .append("rect")
-     .attr("x", (d, i) => d[0])
-     .attr("y", (d, i) => d[2] * (minBarThickness + padding))
-     .attr("height", minBarThickness)
-     .attr("width", (d) => d[1])
-     .attr("fill", "grey");
-
+  // svg.selectAll("rect")
+  //    .data(dataset_test)
+  //    .enter()
+  //    .append("rect")
+  //    .attr("x", (d, i) => linearScale(d[0]))
+  //    .attr("y", (d, i) => d[2] * (minBarThickness + padding))
+  //    .attr("height", minBarThickness)
+  //    .attr("width", (d) => linearScale(d[1]))
+  //    .attr("fill", "grey");
 
   </script>
 
