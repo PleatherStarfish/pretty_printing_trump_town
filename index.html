@@ -2,22 +2,28 @@
 <head>
   <title>Timeline with Integers</title>
   <meta charset="utf-8" />
+  <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
   <style>
-  div.tooltip {
+
+div.tooltip {
     position: absolute;
     text-align: left;
     padding: 20px;
     font: 18px sans-serif;
-    background: rgb(229, 229, 229, 0.8);
+    background: #8deeee;
+    opacity: 0.2;
     border: 0px;
     pointer-events: none;
-    width: 200px;
+    width: 400px;
 
     font-family: Arial;
     font-size: 13px;
 
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+.tip {
+  font-size: 22px;
 }
 line {
   fill: none;
@@ -33,6 +39,33 @@ line {
   /* -webkit-transform: rotate(-40deg); /* Safari */
   /* transform: rotate(-40deg); */
 }
+#agency {
+  font-family: Times;
+  font-size: 30px;
+  opacity: 0.5;
+}
+#title {
+  font-family: 'Lora', serif;
+  font-size: 100px;
+  padding: 20px 20px 10px 40px;
+  color: grey;
+}
+#subtitle {
+  font-family: 'Lora', serif;
+  font-size: 42px;
+  padding: 0px 20px 40px 40px;
+  color: grey;
+  line-height: 60px;
+}
+#graph{
+  padding-top: 40px;
+}
+
+.tip #name {
+  color: black;
+  font-family: 'Lora', serif;
+  font-size: 30px;
+}
 
   </style>
 
@@ -46,19 +79,35 @@ line {
 
 <body>
 
+  <div id=title>Pretty Printing Trump Town</div><br>
+  <div id=subtitle>Tracking the career history of 2,724 White House staffers, cabinet<br> members, and political appointees through one ProPublica dataset</div>
+
+<div id=graph>
   <script>
 
-
-  const w                   = 1850;
-  const h                   = 16000;
+  const w                   = 3700;
+  const h                   = 11300;
   const padding             = .5;
   const minBarThickness     = 2;
   const textYesNo           = false;
-  const lhPadding           = 0;
+  const lhPadding           = 700;
   const agencyPadding       = 20;
   const dateformat = d3.time.format("%b, %y");
   let y_index = 15;
   let staffer_line_xy       = {};
+
+  function gradeLevel( salary ) {
+    if (salary[0] == salary[1]) {
+      return "$"+salary[0]
+    }
+    else if (!salary[0] || !salary[0]) {
+      return "no information on salary"
+    }
+    else {
+      return "$"+salary[0] + " - " + "$"+salary[1]
+    }
+
+  }
 
 
   function handleMouseOut(d, i) {
@@ -82,12 +131,14 @@ line {
        .enter()
        .append("g");
 
-    // if (textYesNo) {
-    // agency_cluster.append("text")
-    //    .attr("x", 50)
-    //    .attr("y", y_index * (minBarThickness + padding))
-    //    .text((d) => agency.agency_name);
-    //  };
+
+    agency_cluster.append("text")
+       .attr("x", 2400 + lhPadding)
+       .attr("y", y_index * (minBarThickness + padding) + 5)
+       .attr('id', "agency")
+       .text((d) => agency.agency_name);
+
+  const agencyLineLength = (y_index * (minBarThickness + padding))
 
     for (let position in agency["positions"]) {
 
@@ -96,16 +147,11 @@ line {
          .enter()
          .append("g");
 
-      // if (textYesNo) {
-      // positions_cluster.append("text")
-      //        .attr("x", 300)
-      //        .attr("y", y_index * (minBarThickness + padding))
-      //        .text((d) => position);
-      // };
-
         for (let person in agency["positions"][position]){
 
           const one_person = agency["positions"][position][person];
+          staffer_line_xy[one_person.staffer_id] = y_index;
+          // console.log(one_person.linkedin_url)
 
           const start_x = linearScale(one_person.start_date ? new Date(one_person.start_date) : new Date("2017-1-19"));
           const end_x = linearScale(one_person.end_date ? new Date(one_person.end_date) : new Date("2018-10-15"));
@@ -115,17 +161,24 @@ line {
              .enter()
              .append("g");
 
-          bars.append("rect")
+          bars.append("a")
+             .attr("xlink:href", function(d) {return d.linkedin_url})
+             .append("rect")
              .attr("x", start_x + lhPadding)
              .attr("y", y_index * (minBarThickness + padding))
              .attr("height", minBarThickness)
              .attr("width", end_x - start_x)
-             .attr("fill", start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff")
+             .attr("fill", (d, i) => d.staffer_id == 1032 ?
+                             "#ff00ff"
+                            :
+                              start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff"
+                            )
              .on("mouseover", handleMouseOver)
              .on("mouseout", handleMouseOut);
 
-          bars.on("mouseover", (d, i) => {tooltip.html("<strong><span style='color:black'>" + d.name + "</span></strong><br>"
-          + position + " (" + agency["agency_name"] + ") " + "<br>" + d.start_date + " - " + d.end_date
+          bars.on("mouseover", (d, i) => {tooltip.html("<div class=tip><strong><span id=name>" + d.name + "</span></strong><br>"
+          + position + " (" + agency["agency_name"] + ") " + "<br><br>" + gradeLevel(d.grade_level) + "<br><br>" + (d.start_date ? d.start_date : "unknown") + " - " + (d.end_date ? d.end_date : "present") + "<br><br>" +
+          d.linkedin_url + "</div>"
             );
           tooltip.style("visibility", "visible")
                       .transition()
@@ -135,25 +188,18 @@ line {
       	      .on("mousemove", (d, i) => {return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
               .on("mouseout", (d, i) => {return tooltip.style("visibility", "hidden").transition().delay(0).duration(300).style("opacity",0);})
 
-          // if (textYesNo) {
-          // bars.append("text")
-          //     .attr("x", end_x)
-          //     .attr("y", y_index * (minBarThickness + padding))
-          //     .text((d) => d.name);
-          // }
-
-          // bars.append("text")
-          //     .attr("x", 500)
-          //     .attr("y", 500)
-          //     .attr('id', "label")
-          //     .text("test");
-
           staffer_line_xy[one_person.staffer_id] = y_index * (minBarThickness + padding);
 
           y_index += 1;
         }
       y_index += 1;
     }
+    svgSelection.append("line")
+      .attr("x1", 2380 + lhPadding)
+      .attr("y1", agencyLineLength)
+      .attr("x2", 2380 + lhPadding)
+      .attr("y2", y_index);
+
     y_index += agencyPadding
   }
 
@@ -170,8 +216,8 @@ let svgSelection = bodySelection
   //               .attr("height", h);
 
   const linearScale = d3.time.scale()
-                .domain([new Date("2017-1-1"), new Date("2018-1-1")])
-                .range([0, 1150]);
+                .domain([new Date("2017-1-1"), new Date("2018-12-1")])
+                .range([0, 2500]);
 
   let tooltip = d3.select("body")
               	.append("div")
@@ -203,6 +249,7 @@ let svgSelection = bodySelection
   const tillerson = linearScale(new Date("2018-3-31")) + lhPadding;
   const manafort = linearScale(new Date("2017-10-30")) + lhPadding;
 
+
   // Inauguration
   svgSelection.append("text")
              .attr("x", inauguration - 5)
@@ -215,7 +262,7 @@ let svgSelection = bodySelection
     .attr("x1", inauguration)
     .attr("y1", 25)
     .attr("x2", inauguration)
-    .attr("y2", 16000);
+    .attr("y2", 11300);
 
   // Mike Flynn
   svgSelection.append("text")
@@ -229,7 +276,7 @@ let svgSelection = bodySelection
     .attr("x1", flynn)
     .attr("y1", 25)
     .attr("x2", flynn)
-    .attr("y2", 16000);
+    .attr("y2", 11300);
 
     svgSelection.append("text")
                .attr("x", comey - 5)
@@ -242,7 +289,7 @@ let svgSelection = bodySelection
       .attr("x1", comey)
       .attr("y1", 25)
       .attr("x2", comey)
-      .attr("y2", 16000);
+      .attr("y2", 11300);
 
     svgSelection.append("text")
                .attr("x", bannon - 5)
@@ -255,7 +302,7 @@ let svgSelection = bodySelection
       .attr("x1", bannon)
       .attr("y1", 25)
       .attr("x2", bannon)
-      .attr("y2", 16000);
+      .attr("y2", 11300);
 
     svgSelection.append("text")
                .attr("x", manafort - 5)
@@ -268,7 +315,7 @@ let svgSelection = bodySelection
       .attr("x1", manafort)
       .attr("y1", 25)
       .attr("x2", manafort)
-      .attr("y2", 16000);
+      .attr("y2", 11300);
 
     svgSelection.append("text")
                .attr("x", tillerson - 5)
@@ -281,9 +328,11 @@ let svgSelection = bodySelection
       .attr("x1", tillerson)
       .attr("y1", 25)
       .attr("x2", tillerson)
-      .attr("y2", 16000);
+      .attr("y2", 11300);
+
+  console.log(staffer_line_xy);
 
   </script>
-
+</div>
 </body>
 </html>
