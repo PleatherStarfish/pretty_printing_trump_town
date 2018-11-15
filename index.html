@@ -3,13 +3,15 @@
   <title>Timeline with Integers</title>
   <meta charset="utf-8" />
   <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <style>
 
 div.tooltip {
     position: absolute;
     text-align: left;
     padding: 20px;
-    font: 18px sans-serif;
+    font-family: 'Lato', sans-serif;
     background: #8deeee;
     opacity: 0.2;
     border: 0px;
@@ -31,7 +33,7 @@ line {
   stroke-width: 1px;
 }
 #label {
-  font-family: Arial;
+  font-family: 'Lato', sans-serif;
   font-size: 25px;
   opacity: 0.5;
   /* transform: translate(100px, 100px); */
@@ -40,31 +42,36 @@ line {
   /* transform: rotate(-40deg); */
 }
 #agency {
-  font-family: Times;
-  font-size: 30px;
+  font-family: 'Lora', serif;
+  font-size: 35px;
   opacity: 0.5;
 }
 #title {
   font-family: 'Lora', serif;
   font-size: 100px;
-  padding: 20px 20px 10px 40px;
+  padding: 20px 20px 10px 740px;
   color: grey;
 }
 #subtitle {
-  font-family: 'Lora', serif;
-  font-size: 42px;
-  padding: 0px 20px 40px 40px;
+  font-family: 'Lato', sans-serif;
+  font-size: 46px;
+  padding: 0px 20px 40px 740px;
   color: grey;
   line-height: 60px;
 }
 #graph{
-  padding-top: 40px;
+
 }
 
 .tip #name {
   color: black;
   font-family: 'Lora', serif;
   font-size: 30px;
+}
+#comps {
+  font-size: 10px;
+  font-family: 'Lato', sans-serif;
+  fill: grey;
 }
 
   </style>
@@ -73,8 +80,9 @@ line {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
 <script src="data.js" type="text/javascript"></script>
-<script src="data_old.js" type="text/javascript"></script>
 <script src="organization.js" type="text/javascript"></script>
+<script src="staffer_org.js" type="text/javascript"></script>
+<script src="organzation_ids.js" type="text/javascript"></script>
 <script src="staffer_org.js" type="text/javascript"></script>
 
 <body>
@@ -86,25 +94,27 @@ line {
   <script>
 
   const w                   = 3700;
-  const h                   = 11300;
-  const padding             = .5;
+  const h                   = 113000;
+  const padding             = .1;
   const minBarThickness     = 2;
   const textYesNo           = false;
   const lhPadding           = 700;
   const agencyPadding       = 20;
   const dateformat = d3.time.format("%b, %y");
   let y_index = 15;
+  let y_index_orgs = 60;
   let staffer_line_xy       = {};
 
   function gradeLevel( salary ) {
     if (salary[0] == salary[1]) {
-      return "$"+salary[0]
+      return "Salary: $"+(salary[0]).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     }
     else if (!salary[0] || !salary[0]) {
       return "no information on salary"
     }
     else {
-      return "$"+salary[0] + " - " + "$"+salary[1]
+      return "Salary: $"+(salary[0]).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') + " - " +
+      "$"+(salary[1]).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
     }
 
   }
@@ -124,6 +134,15 @@ line {
 
     }
 
+    function splines(comp, id) {
+
+      svgSelection.append("line")
+        .attr("x1", 10)
+        .attr("y1", locationObj[comp])
+        .attr("x2", staffer_line_xy[id][0])
+        .attr("y2", staffer_line_xy[id][1]);
+    }
+
   function barCluster(agency) {
 
     let agency_cluster = svgSelection.selectAll(null)
@@ -134,7 +153,7 @@ line {
 
     agency_cluster.append("text")
        .attr("x", 2400 + lhPadding)
-       .attr("y", y_index * (minBarThickness + padding) + 5)
+       .attr("y", y_index * (minBarThickness + padding) + 10)
        .attr('id', "agency")
        .text((d) => agency.agency_name);
 
@@ -150,11 +169,10 @@ line {
         for (let person in agency["positions"][position]){
 
           const one_person = agency["positions"][position][person];
-          staffer_line_xy[one_person.staffer_id] = y_index;
-          // console.log(one_person.linkedin_url)
 
           const start_x = linearScale(one_person.start_date ? new Date(one_person.start_date) : new Date("2017-1-19"));
           const end_x = linearScale(one_person.end_date ? new Date(one_person.end_date) : new Date("2018-10-15"));
+          staffer_line_xy[one_person.staffer_id] = [(start_x + lhPadding), (y_index * (minBarThickness + padding))];
 
           let bars = positions_cluster.selectAll(null)
              .data([one_person])
@@ -188,20 +206,50 @@ line {
       	      .on("mousemove", (d, i) => {return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
               .on("mouseout", (d, i) => {return tooltip.style("visibility", "hidden").transition().delay(0).duration(300).style("opacity",0);})
 
-          staffer_line_xy[one_person.staffer_id] = y_index * (minBarThickness + padding);
-
           y_index += 1;
         }
       y_index += 1;
     }
-    svgSelection.append("line")
-      .attr("x1", 2380 + lhPadding)
-      .attr("y1", agencyLineLength)
-      .attr("x2", 2380 + lhPadding)
-      .attr("y2", y_index);
+    // svgSelection.append("line")
+    //   .attr("x1", 2380 + lhPadding)
+    //   .attr("y1", agencyLineLength)
+    //   .attr("x2", 2380 + lhPadding)
+    //   .attr("y2", y_index);
 
     y_index += agencyPadding
   }
+
+let locationObj = {};
+function compCluster(type, comps) {
+  let comps_cluster = svgSelection.selectAll(null)
+     .append("n");
+  for (let one_comp of comps) {
+    locationObj[one_comp.organization_name] = [y_index_orgs, one_comp.staffer_id];
+    comps_cluster = svgSelection.append("text")
+       .attr("x", 10)
+       .attr("y", y_index_orgs)
+       .style("fill", "grey")
+       .attr('id', "comps")
+       .text(() => one_comp.organization_name);
+    y_index_orgs += 1
+   }
+  y_index_orgs += 5
+}
+
+function orgCluster(org_key, org_type) {
+
+  svgSelection.append("text")
+     .attr("x", 400)
+     .attr("y", y_index_orgs)
+     .attr('id', "comps")
+     .text(() => org_key);
+
+  Object.entries(org_type).forEach(
+    ([key, value]) => compCluster(key, value)
+  );
+  y_index_orgs += 15
+}
+
 
 let bodySelection = d3.select("body");
 
@@ -238,17 +286,49 @@ let svgSelection = bodySelection
  // let positions_cluster = svg.select(null)
  // let bars = svg.select(null)
 
-  Object.entries(frog).forEach(
+  // Clusters of bars reprosenting staffers
+  Object.entries(staffers).forEach(
     ([key, value]) => barCluster(value)
   );
 
+  // clusters of organizations
+  Object.entries(organizations).forEach(
+    ([key, value]) => orgCluster(key, value)
+  );
+
+  // svgSelection.append("line")
+  //   .attr("x1", 10)
+  //   .attr("y1", locationObj[location])
+  //   .attr("x2", staffer_line_xy[id][0])
+  //   .attr("y2", staffer_line_xy[id][1]);
+
+
+  let one_spline = svgSelection.append("svg")
+
+  for (let location in locationObj) {
+
+    const company_y = locationObj[location][0];
+    const person_id = locationObj[location][1];
+
+    if (person_id in staffer_line_xy) {
+      one_spline.append("line")
+        .attr("x1", 10)
+        .attr("y1", company_y)
+        .attr("x2", staffer_line_xy[person_id][0])
+        .attr("y2", staffer_line_xy[person_id][1])
+        .style("visibility", "visible");
+    }
+  }
+
+  // d3.selectAll("text").on("mouseover", (d, i) => {one_spline.line.style("visibility", "visible")});
+
+  // conts for event lines
   const inauguration = linearScale(new Date("2017-1-20")) + lhPadding;
   const flynn = linearScale(new Date("2017-2-13")) + lhPadding;
   const comey = linearScale(new Date("2017-5-9")) + lhPadding;
   const bannon = linearScale(new Date("2017-8-18")) + lhPadding;
   const tillerson = linearScale(new Date("2018-3-31")) + lhPadding;
   const manafort = linearScale(new Date("2017-10-30")) + lhPadding;
-
 
   // Inauguration
   svgSelection.append("text")
@@ -271,66 +351,68 @@ let svgSelection = bodySelection
              .attr('id', "label")
              .attr("transform", "rotate(-90, "+ (flynn - 5) + ", 695)")
              .text("National Security Advisor Mike Flynn resigns (Feb. 13, 2017)");
-  svgSelection.append("line")          // attach a line
+  svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
     .attr("x1", flynn)
     .attr("y1", 25)
     .attr("x2", flynn)
     .attr("y2", 11300);
 
-    svgSelection.append("text")
-               .attr("x", comey - 5)
-               .attr("y", 675)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (comey - 5) + ", 675)")
-               .text("Trump dismisses FBI director James Comey (May 9, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", comey)
-      .attr("y1", 25)
-      .attr("x2", comey)
-      .attr("y2", 11300);
+  // Comey
+  svgSelection.append("text")
+             .attr("x", comey - 5)
+             .attr("y", 675)
+             .attr('id', "label")
+             .attr("transform", "rotate(-90, "+ (comey - 5) + ", 675)")
+             .text("Trump dismisses FBI director James Comey (May 9, 2017)");
+  svgSelection.append("line")
+    .style("stroke-dasharray", ("10, 10"))
+    .attr("x1", comey)
+    .attr("y1", 25)
+    .attr("x2", comey)
+    .attr("y2", 11300);
 
-    svgSelection.append("text")
-               .attr("x", bannon - 5)
-               .attr("y", 555)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (bannon - 5) + ", 555)")
-               .text("Trump dismisses Steve Bannon (Aug. 18, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", bannon)
-      .attr("y1", 25)
-      .attr("x2", bannon)
-      .attr("y2", 11300);
+  // Bannon
+  svgSelection.append("text")
+             .attr("x", bannon - 5)
+             .attr("y", 555)
+             .attr('id', "label")
+             .attr("transform", "rotate(-90, "+ (bannon - 5) + ", 555)")
+             .text("Trump dismisses Steve Bannon (Aug. 18, 2017)");
+  svgSelection.append("line")
+    .style("stroke-dasharray", ("10, 10"))
+    .attr("x1", bannon)
+    .attr("y1", 25)
+    .attr("x2", bannon)
+    .attr("y2", 11300);
 
-    svgSelection.append("text")
-               .attr("x", manafort - 5)
-               .attr("y", 858)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (manafort - 5) + ", 858)")
-               .text("Paul Manafort arrested for conspiracy against United States (Oct. 30, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", manafort)
-      .attr("y1", 25)
-      .attr("x2", manafort)
-      .attr("y2", 11300);
+  // Manafort
+  svgSelection.append("text")
+             .attr("x", manafort - 5)
+             .attr("y", 858)
+             .attr('id', "label")
+             .attr("transform", "rotate(-90, "+ (manafort - 5) + ", 858)")
+             .text("Paul Manafort arrested for conspiracy against United States (Oct. 30, 2017)");
+  svgSelection.append("line")
+    .style("stroke-dasharray", ("10, 10"))
+    .attr("x1", manafort)
+    .attr("y1", 25)
+    .attr("x2", manafort)
+    .attr("y2", 11300);
 
-    svgSelection.append("text")
-               .attr("x", tillerson - 5)
-               .attr("y", 540)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (tillerson - 5) + ", 540)")
-               .text("Trump dismisses Rex Tillerson (Mar. 31, 2018)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", tillerson)
-      .attr("y1", 25)
-      .attr("x2", tillerson)
-      .attr("y2", 11300);
-
-  console.log(staffer_line_xy);
+  // Tillerson
+  svgSelection.append("text")
+             .attr("x", tillerson - 5)
+             .attr("y", 540)
+             .attr('id', "label")
+             .attr("transform", "rotate(-90, "+ (tillerson - 5) + ", 540)")
+             .text("Trump dismisses Rex Tillerson (Mar. 31, 2018)");
+  svgSelection.append("line")
+    .style("stroke-dasharray", ("10, 10"))
+    .attr("x1", tillerson)
+    .attr("y1", 25)
+    .attr("x2", tillerson)
+    .attr("y2", 11300);
 
   </script>
 </div>
