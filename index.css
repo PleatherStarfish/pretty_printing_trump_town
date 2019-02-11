@@ -1,0 +1,124 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-family: 'Lora', serif;
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 0.1em;
+    padding: 20px 20px 0 0;
+    color: grey;
+}
+h2 {
+    font-family: Arial, san-serif;
+    font-size: 22px;
+    font-weight: normal;
+    padding: 0 20px 40px 0;
+    color: grey;
+    line-height: 1.5em;
+}
+
+header {
+    width: 810px;
+    margin-left: 40px;
+}
+
+main {
+    margin-top: 100px;
+    margin-left: 40px;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: left;
+    padding: 20px;
+    background: #8deeee;
+    opacity: 0.2;
+    border: 0px;
+    pointer-events: none;
+    width: 400px;
+    font-family: Arial, san-serif;
+    font-size: 13px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+.tip #name {
+    color: black;
+    font-family: 'Lora', san-serif;
+    font-size: 30px;
+}
+line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+}
+#label {
+    font-family: Arial, san-serif;
+    font-size: 25px;
+    opacity: 0.5;
+}
+#agency {
+    font-family: Arial, san-serif;
+    font-size: 30px;
+    opacity: 0.5;
+}
+#graph{
+    padding-top: 40px;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 37000px;
+    height: 11300px;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.zoom {
+    font-family: Arial, san-serif;
+    color: lightgrey;
+    padding-bottom: 10px;
+}
+
+.slidecontainer {
+    position: absolute;
+    margin: 0;
+    width: 810px;
+}
+.slider {
+    -webkit-appearance: none;
+    width: 30%;
+    height: 10px;
+    background: #F0F0F0;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+.slider:hover {
+    opacity: 1;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 25px;
+    background: #FFAEFF;
+    cursor: pointer;
+}
+.slider::-moz-range-thumb {
+    width: 15px;
+    height: 25px;
+    background: #ffaeff;
+    cursor: pointer;
+}

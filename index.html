@@ -3,86 +3,30 @@
   <title>Timeline with Integers</title>
   <meta charset="utf-8" />
   <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-  <style>
+  <link href="index.css" rel="stylesheet">
 
-div.tooltip {
-    position: absolute;
-    text-align: left;
-    padding: 20px;
-    font: 18px sans-serif;
-    background: #8deeee;
-    opacity: 0.2;
-    border: 0px;
-    pointer-events: none;
-    width: 400px;
-
-    font-family: Arial;
-    font-size: 13px;
-
-    -moz-border-radius: 15px;
-    border-radius: 15px;
-}
-.tip {
-  font-size: 22px;
-}
-line {
-  fill: none;
-  stroke: #000;
-  stroke-width: 1px;
-}
-#label {
-  font-family: Arial;
-  font-size: 25px;
-  opacity: 0.5;
-  /* transform: translate(100px, 100px); */
-  /* -ms-transform: rotate(-40deg); /* IE 9 */
-  /* -webkit-transform: rotate(-40deg); /* Safari */
-  /* transform: rotate(-40deg); */
-}
-#agency {
-  font-family: Times;
-  font-size: 30px;
-  opacity: 0.5;
-}
-#title {
-  font-family: 'Lora', serif;
-  font-size: 100px;
-  padding: 20px 20px 10px 40px;
-  color: grey;
-}
-#subtitle {
-  font-family: 'Lora', serif;
-  font-size: 42px;
-  padding: 0px 20px 40px 40px;
-  color: grey;
-  line-height: 60px;
-}
-#graph{
-  padding-top: 40px;
-}
-
-.tip #name {
-  color: black;
-  font-family: 'Lora', serif;
-  font-size: 30px;
-}
-
-  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
+  <script src="data.js" type="text/javascript"></script>
+  <script src="data_old.js" type="text/javascript"></script>
+  <script src="organization.js" type="text/javascript"></script>
+  <script src="staffer_org.js" type="text/javascript"></script>
 
 </head>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
-<script src="data.js" type="text/javascript"></script>
-<script src="data_old.js" type="text/javascript"></script>
-<script src="organization.js" type="text/javascript"></script>
-<script src="staffer_org.js" type="text/javascript"></script>
-
 <body>
 
-  <div id=title>Pretty Printing Trump Town</div><br>
-  <div id=subtitle>Tracking the career history of 2,724 White House staffers, cabinet<br> members, and political appointees through one ProPublica dataset</div>
+  <header>
 
-<div id=graph>
+    <h1 id=title>Pretty Printing Trump Town</h1><br>
+    <h2 id=subtitle>Tracking the career history of 2,724 White House staffers, cabinet members, and<br>
+      political appointees through one ProPublica dataset</h2>
+    <div class="slidecontainer">
+      <p class="zoom">Zoom: <span id="demo"></span>%</p>
+      <input type="range" min="1" max="100" value="70" class="slider" id="myRange">
+    </div>
+
+  </header>
+
   <script>
 
   const w                   = 3700;
@@ -90,11 +34,15 @@ line {
   const padding             = .5;
   const minBarThickness     = 2;
   const textYesNo           = false;
-  const lhPadding           = 700;
   const agencyPadding       = 20;
-  const dateformat = d3.time.format("%b, %y");
+  const dateformat          = d3.time.format("%b, %y");
+  const lhPadding           = 700;
   let y_index = 15;
   let staffer_line_xy       = {};
+
+  const linearScale = d3.time.scale()
+          .domain([new Date("2017-1-1"), new Date("2018-12-1")])
+          .range([0, 2500]);
 
   function gradeLevel( salary ) {
     if (salary[0] == salary[1]) {
@@ -108,7 +56,6 @@ line {
     }
 
   }
-
 
   function handleMouseOut(d, i) {
       // Use D3 to select element, change color back to normal
@@ -138,7 +85,7 @@ line {
        .attr('id', "agency")
        .text((d) => agency.agency_name);
 
-  const agencyLineLength = (y_index * (minBarThickness + padding))
+    const agencyLineLength = (y_index * (minBarThickness + padding))
 
     for (let position in agency["positions"]) {
 
@@ -206,34 +153,30 @@ line {
 let bodySelection = d3.select("body");
 
 let svgSelection = bodySelection
+                   .append("main")
+                   .attr("width", w)
+                   .attr("height", h)
+                   .attr('id', "container")
+                   .attr('class', "svg-container")
                    .append("svg")
                    .attr("width", w)
                    .attr("height", h)
+                   .attr("preserveAspectRatio", "xMinYMin meet")
+                   .attr("viewBox", `0 0 ${w} ${h}`)
+                   .classed("svg-content", true);
 
   // const svg = d3.select("body")
   //               .append("svg")
   //               .attr("width", w)
   //               .attr("height", h);
 
-  const linearScale = d3.time.scale()
-                .domain([new Date("2017-1-1"), new Date("2018-12-1")])
-                .range([0, 2500]);
 
-  let tooltip = d3.select("body")
-              	.append("div")
-                .attr("class", "tooltip")
-              	.style("position", "absolute")
-              	.style("z-index", "10")
-              	.style("visibility", "hidden")
-                .style("opacity",0)
-                .text("test");
-
-    // svgSelection.append("text")
-    //            .attr("x", 500)
-    //            .attr("y", 500)
-    //            .attr('id', "label")
-    //            .text("test")
-
+ //    svgSelection.append("text")
+ //               .attr("x", 500)
+ //               .attr("y", 500)
+ //               .attr('id', "label")
+ //               .text("test")
+ //
  // let agency_cluster = svg.select(null)
  // let positions_cluster = svg.select(null)
  // let bars = svg.select(null)
@@ -242,97 +185,19 @@ let svgSelection = bodySelection
     ([key, value]) => barCluster(value)
   );
 
-  const inauguration = linearScale(new Date("2017-1-20")) + lhPadding;
-  const flynn = linearScale(new Date("2017-2-13")) + lhPadding;
-  const comey = linearScale(new Date("2017-5-9")) + lhPadding;
-  const bannon = linearScale(new Date("2017-8-18")) + lhPadding;
-  const tillerson = linearScale(new Date("2018-3-31")) + lhPadding;
-  const manafort = linearScale(new Date("2017-10-30")) + lhPadding;
+  let tooltip = d3.select("body")
+          .append("div")
+          .attr("class", "tooltip")
+          .style("position", "absolute")
+          .style("z-index", "10")
+          .style("visibility", "hidden")
+          .style("opacity",0)
+          .text("test");
 
-
-  // Inauguration
-  svgSelection.append("text")
-             .attr("x", inauguration - 5)
-             .attr("y", 530)
-             .attr('id', "label")
-             .attr("transform", "rotate(-90, "+ (inauguration - 5) + ", 530)")
-             .text("Inauguration of Donald Trump (Jan. 20, 2017)");
-  svgSelection.append("line")
-    .style("stroke-dasharray", ("10, 10"))
-    .attr("x1", inauguration)
-    .attr("y1", 25)
-    .attr("x2", inauguration)
-    .attr("y2", 11300);
-
-  // Mike Flynn
-  svgSelection.append("text")
-             .attr("x", flynn - 5)
-             .attr("y", 695)
-             .attr('id', "label")
-             .attr("transform", "rotate(-90, "+ (flynn - 5) + ", 695)")
-             .text("National Security Advisor Mike Flynn resigns (Feb. 13, 2017)");
-  svgSelection.append("line")          // attach a line
-    .style("stroke-dasharray", ("10, 10"))
-    .attr("x1", flynn)
-    .attr("y1", 25)
-    .attr("x2", flynn)
-    .attr("y2", 11300);
-
-    svgSelection.append("text")
-               .attr("x", comey - 5)
-               .attr("y", 675)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (comey - 5) + ", 675)")
-               .text("Trump dismisses FBI director James Comey (May 9, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", comey)
-      .attr("y1", 25)
-      .attr("x2", comey)
-      .attr("y2", 11300);
-
-    svgSelection.append("text")
-               .attr("x", bannon - 5)
-               .attr("y", 555)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (bannon - 5) + ", 555)")
-               .text("Trump dismisses Steve Bannon (Aug. 18, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", bannon)
-      .attr("y1", 25)
-      .attr("x2", bannon)
-      .attr("y2", 11300);
-
-    svgSelection.append("text")
-               .attr("x", manafort - 5)
-               .attr("y", 858)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (manafort - 5) + ", 858)")
-               .text("Paul Manafort arrested for conspiracy against United States (Oct. 30, 2017)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", manafort)
-      .attr("y1", 25)
-      .attr("x2", manafort)
-      .attr("y2", 11300);
-
-    svgSelection.append("text")
-               .attr("x", tillerson - 5)
-               .attr("y", 540)
-               .attr('id', "label")
-               .attr("transform", "rotate(-90, "+ (tillerson - 5) + ", 540)")
-               .text("Trump dismisses Rex Tillerson (Mar. 31, 2018)");
-    svgSelection.append("line")
-      .style("stroke-dasharray", ("10, 10"))
-      .attr("x1", tillerson)
-      .attr("y1", 25)
-      .attr("x2", tillerson)
-      .attr("y2", 11300);
-
-  console.log(staffer_line_xy);
 
   </script>
-</div>
+
+  <script type="text/javascript" src="event_lines.js"></script>
+  <script type="text/javascript" src="slider.js"></script>
 </body>
 </html>
