@@ -15,28 +15,35 @@ h2 {
     font-family: Arial, san-serif;
     font-size: 22px;
     font-weight: normal;
+    text-align: justify;
+    text-justify: inter-word;
     padding: 0 20px 40px 0;
     color: grey;
-    line-height: 1.5em;
+    line-height: 1.6em;
 }
 
 header {
+    position: fixed;
     width: 810px;
     margin-left: 40px;
 }
 
+body.scrolled #header-menu {
+    opacity: 0;
+    transition: opacity .8s;
+}
+
 main {
-    margin-top: 100px;
+    margin-top: 350px;
     margin-left: 40px;
 }
 
 .tooltip {
     position: absolute;
     text-align: left;
-    padding: 20px;
+    padding: 15px;
     background: #8deeee;
-    opacity: 0.2;
-    border: 0px;
+    opacity: 0.5;
     pointer-events: none;
     width: 400px;
     font-family: Arial, san-serif;
@@ -44,6 +51,10 @@ main {
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
+.tooltip h1 {
+    padding: 0;
+}
+
 .tip #name {
     color: black;
     font-family: 'Lora', san-serif;
@@ -110,7 +121,6 @@ line {
 }
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 15px;
     height: 25px;
     background: #FFAEFF;

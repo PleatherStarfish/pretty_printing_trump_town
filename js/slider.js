@@ -17,4 +17,3 @@ slider.oninput = function() {
     shape.setAttribute("viewBox", `0 0 ${w + convertRange(this.value,[1,100],[20000,0])} ${h}`);
     output.innerHTML = convertRange(this.value,[1,100 ],[1,100]);
 }
-
