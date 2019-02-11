@@ -37,5 +37,4 @@ function handleMouseOver(d, i) {
     d3.select(this)
         .attr({fill: "#ff00ff"})
         .attr({height: 2});
-
 }

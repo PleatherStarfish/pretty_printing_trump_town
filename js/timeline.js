@@ -1,18 +1,19 @@
 function barCluster(agency) {
 
+    // Create a new custem D3 node called "g"
     let agency_cluster = svgSelection.selectAll(null)
         .data([agency])
         .enter()
         .append("g");
 
-
+    // Write the agencies name to the right of the timeline
     agency_cluster.append("text")
         .attr("x", 2400 + lhPadding)
         .attr("y", y_index * (minBarThickness + padding) + 5)
-        .attr('id', "agency")
+        .attr('class', "agency")
         .text((d) => agency.agency_name);
 
-    const agencyLineLength = (y_index * (minBarThickness + padding))
+    const agencyLineLength = y_index * (minBarThickness + padding);
 
     for (let position in agency["positions"]) {
 
@@ -25,7 +26,6 @@ function barCluster(agency) {
 
             const one_person = agency["positions"][position][person];
             staffer_line_xy[one_person.staffer_id] = y_index;
-            // console.log(one_person.linkedin_url)
 
             const start_x = linearScale(one_person.start_date ? new Date(one_person.start_date) : new Date("2017-1-19"));
             const end_x = linearScale(one_person.end_date ? new Date(one_person.end_date) : new Date("2018-10-15"));
@@ -69,10 +69,11 @@ function barCluster(agency) {
         y_index += 1;
     }
     svgSelection.append("line")
+        .attr('class', 'agency_lines')
         .attr("x1", 2380 + lhPadding) // vertical position on x-axis
-        .attr("y1", agencyLineLength)
+        .attr("y1", agencyLineLength - 15)
         .attr("x2", 2380 + lhPadding)
-        .attr("y2", y_index);
+        .attr("y2", y_index * (minBarThickness + padding) + 15);
 
-    y_index += agencyPadding
+    y_index += agencyPadding;
 }

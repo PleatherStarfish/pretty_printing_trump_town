@@ -65,15 +65,19 @@ line {
     stroke: #000;
     stroke-width: 1px;
 }
-#label {
+.event_label {
     font-family: Arial, san-serif;
     font-size: 25px;
     opacity: 0.5;
 }
-#agency {
+.agency {
     font-family: Arial, san-serif;
     font-size: 30px;
     opacity: 0.5;
+}
+.agency_lines {
+    stroke-width: 14px;
+    opacity: 0.2;
 }
 #graph{
     padding-top: 40px;
