@@ -18,6 +18,11 @@ slider.oninput = function() {
     output.innerHTML = convertRange(this.value,[1,100 ],[1,100]);
 
     eventLine = document.getElementsByClassName("event_label");
-    console.log(eventLine);
-    eventLine[0].style.fontSize = `${convertRange(this.value,[1,100],[70,25])}px`;
+    agencyLabel = document.getElementsByClassName("agency");
+    for (node of eventLine) {
+        node.style.fontSize = `${convertRange(this.value,[1,100],[70,25])}px`;
+    }
+    for (node of agencyLabel) {
+        node.style.fontSize = `${convertRange(this.value,[1,100],[70,25])}px`;
+    }
 }

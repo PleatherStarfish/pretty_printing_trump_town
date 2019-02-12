@@ -67,8 +67,9 @@ line {
 }
 .event_label {
     font-family: Arial, san-serif;
-    font-size: 25px;
+    font-size: 38.6364px; /*Font size is set in JS, so must start at very specific float value*/
     opacity: 0.5;
+
 }
 .agency {
     font-family: Arial, san-serif;
@@ -86,7 +87,7 @@ line {
 .svg-container {
     display: inline-block;
     position: relative;
-    width: 37000px;
+    width: 3700px;
     height: 11300px;
     padding-bottom: 100%;
     vertical-align: top;

@@ -10,9 +10,10 @@ const manafort = linearScale(new Date("2017-10-30")) + lhPadding;
 // Inauguration
 svgSelection.append("text")
     .attr("x", inauguration - 5)
-    .attr("y", 530)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (inauguration - 5) + ", 530)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (inauguration - 5) + ", 25)")
     .text("Inauguration of Donald Trump (Jan. 20, 2017)");
 svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
@@ -24,9 +25,10 @@ svgSelection.append("line")
 // Mike Flynn
 svgSelection.append("text")
     .attr("x", flynn - 5)
-    .attr("y", 695)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (flynn - 5) + ", 695)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (flynn - 5) + ", 25)")
     .text("National Security Advisor Mike Flynn resigns (Feb. 13, 2017)");
 svgSelection.append("line")          // attach a line
     .style("stroke-dasharray", ("10, 10"))
@@ -37,9 +39,10 @@ svgSelection.append("line")          // attach a line
 
 svgSelection.append("text")
     .attr("x", comey - 5)
-    .attr("y", 675)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (comey - 5) + ", 675)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (comey - 5) + ", 25)")
     .text("Trump dismisses FBI director James Comey (May 9, 2017)");
 svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
@@ -50,9 +53,10 @@ svgSelection.append("line")
 
 svgSelection.append("text")
     .attr("x", bannon - 5)
-    .attr("y", 555)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (bannon - 5) + ", 555)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (bannon - 5) + ", 25)")
     .text("Trump dismisses Steve Bannon (Aug. 18, 2017)");
 svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
@@ -63,9 +67,10 @@ svgSelection.append("line")
 
 svgSelection.append("text")
     .attr("x", manafort - 5)
-    .attr("y", 858)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (manafort - 5) + ", 858)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (manafort - 5) + ", 25)")
     .text("Paul Manafort arrested for conspiracy against United States (Oct. 30, 2017)");
 svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
@@ -76,9 +81,10 @@ svgSelection.append("line")
 
 svgSelection.append("text")
     .attr("x", tillerson - 5)
-    .attr("y", 540)
+    .attr("y", 25)
     .attr('class', "event_label")
-    .attr("transform", "rotate(-90, "+ (tillerson - 5) + ", 540)")
+    .attr("text-anchor", "end")
+    .attr("transform", "rotate(-90, "+ (tillerson - 5) + ", 25)")
     .text("Trump dismisses Rex Tillerson (Mar. 31, 2018)");
 svgSelection.append("line")
     .style("stroke-dasharray", ("10, 10"))
