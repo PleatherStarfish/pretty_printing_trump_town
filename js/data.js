@@ -1,4 +1,4 @@
-const frog = {
+const data = {
     "1": {
         "agency_name": "Agriculture",
         "agency_slug": "agriculture",

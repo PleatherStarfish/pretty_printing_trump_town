@@ -46,7 +46,7 @@ let svgSelection = bodySelection
                    .attr("viewBox", `0 0 ${w} ${h}`)
                    .classed("svg-content", true);
 
-  Object.entries(frog).forEach(
+  Object.entries(data).forEach(
     ([key, value]) => barCluster(value)
   );
 

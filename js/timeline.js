@@ -1,3 +1,5 @@
+let stafferLinesLocationStart = {};
+
 function barCluster(agency) {
 
     // Create a new custem D3 node called "g"
@@ -25,7 +27,7 @@ function barCluster(agency) {
         for (let person in agency["positions"][position]){
 
             const one_person = agency["positions"][position][person];
-            staffer_line_xy[one_person.staffer_id] = y_index;
+            // staffer_line_xy[one_person.staffer_id] = y_index;
 
             const start_x = linearScale(one_person.start_date ? new Date(one_person.start_date) : new Date("2017-1-19"));
             const end_x = linearScale(one_person.end_date ? new Date(one_person.end_date) : new Date("2018-10-15"));
@@ -34,6 +36,8 @@ function barCluster(agency) {
                 .data([one_person])
                 .enter()
                 .append("g");
+
+            stafferLinesLocationStart[one_person.staffer_id] = [(start_x + lhPadding), (y_index * (minBarThickness + padding))];
 
             bars.append("a")
                 .attr("xlink:href", function(d) {return d.linkedin_url})
@@ -50,19 +54,71 @@ function barCluster(agency) {
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
 
-            bars.on("mouseover", (d, i) => {tooltip.html("<div class=tip><strong><span id=name>" + d.name + "</span></strong><br>"
-                + position + " (" + agency["agency_name"] + ") " + "<br><br>" + gradeLevel(d.grade_level) + "<br><br>" + (d.start_date ? d.start_date : "unknown") + " - " + (d.end_date ? d.end_date : "present") + "<br><br>" +
-                d.linkedin_url + "</div>"
-            );
-                tooltip.style("visibility", "visible")
-                    .transition()
-                    .delay(0)
-                    .duration(400)
-                    .style("opacity",1);})
-                .on("mousemove", (d, i) => {return tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");})
-                .on("mouseout", (d, i) => {return tooltip.style("visibility", "hidden").transition().delay(0).duration(300).style("opacity",0);})
+            bars.on("mouseover", (d, i) =>
 
-            staffer_line_xy[one_person.staffer_id] = y_index * (minBarThickness + padding);
+                {tooltip.html
+                    ("<div class=tip><strong><span id=name>" + d.name + "</span></strong><br>"
+                        + position + " (" + agency["agency_name"] + ") " + "<br><br>" + gradeLevel(d.grade_level) + "<br><br>" + (d.start_date ? d.start_date : "unknown") + " - " + (d.end_date ? d.end_date : "present") + "<br><br>" +
+                        d.linkedin_url + "</div>"
+                    );
+
+                    tooltip.style("visibility", "visible")
+                        .transition()
+                        .delay(0)
+                        .duration(400)
+                        .style("opacity", 0.7);
+
+                    agency_cluster.append("foreignObject")
+                        .attr("x", 0)
+                        .attr("y", stafferLinesLocationStart[`${d.staffer_id}`][1])
+                            // + ((job + 1) * career_history_text_spacing))
+                        .attr('class', "career_history")
+                        .attr('id', "one_career_history")
+                        .style("font-size", career_history_text)
+                        .style("text-align", "right");
+                            // .style("width", 600)
+                            // .style("text-align", "right")
+                            // .style("position", "relative")
+                            // .each(d3.select(this).append('div').text((d) => "test"));
+                            // .html((d, i) => staffer_orgs[`${one_person.staffer_id}`]);
+
+                    let jobs = document.getElementById('one_career_history');
+                    for (job of staffer_orgs[`${one_person.staffer_id}`]) {
+                        let outerDiv = document.createElement("div");
+                        jobs.append(outerDiv);
+                            let newDiv = document.createElement("div");
+                            newDiv.style.width = "700px";
+                            newDiv.style.textAlign = "right";
+                            outerDiv.append(newDiv);
+                            let newContent = document.createTextNode(job.organization_name);
+                            newDiv.appendChild(newContent);
+                    }
+
+                }
+            )
+                .on("mousemove", (d, i) => {
+                    tooltip
+                        .style("top", (event.pageY-10)+"px")
+                        .style("left",(event.pageX+10)+"px");
+                })
+
+                .on("mouseout", (d, i) => {
+                    tooltip
+                        .style("visibility", "hidden")
+                        .transition()
+                        .delay(0)
+                        .duration(300)
+                        .style("opacity", 0);
+
+                        agency_cluster.selectAll(".career_history").remove();
+                    }
+                );
+
+            // bars.on("mouseover", (d, i) => {
+            //     console.log(staffer_orgs[`${d.staffer_id}`]);
+            // });
+
+            // staffer_line_xy[one_person.staffer_id] = y_index * (minBarThickness + padding);
 
             y_index += 1;
         }

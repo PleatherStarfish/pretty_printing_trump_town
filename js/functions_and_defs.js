@@ -2,12 +2,13 @@ const w                   = 3700;
 const h                   = 11300;
 const padding             = .5;
 const minBarThickness     = 2;
-const textYesNo           = false;
 const agencyPadding       = 20;
-const dateformat          = d3.time.format("%b, %y");
 const lhPadding           = 700;
 let y_index               = 15;
-let staffer_line_xy       = {};
+let career_history_text   = 38.6364;
+let career_history_text_spacing = 5;
+// let staffer_line_xy       = {};
+
 
 const linearScale = d3.time.scale()
     .domain([new Date("2017-1-1"), new Date("2018-12-1")])

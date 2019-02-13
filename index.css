@@ -137,3 +137,9 @@ line {
     background: #ffaeff;
     cursor: pointer;
 }
+.career_history {
+    font-family: Arial, san-serif;
+    color: black;
+    font-size: 38.6364px;
+    opacity: 1;
+}
