@@ -39,3 +39,10 @@ function handleMouseOver(d, i) {
         .attr({fill: "#ff00ff"})
         .attr({height: 2});
 }
+
+function truncate(string, length) {
+    if (string.length > length)
+        return string.substring(0,length)+' [...]';
+    else
+        return string;
+};

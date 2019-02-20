@@ -1,12 +1,5 @@
 let stafferLinesLocationStart = {};
 
-function truncate(string, length) {
-    if (string.length > length)
-        return string.substring(0,length)+' [...]';
-    else
-        return string;
-};
-
 function barCluster(agency) {
 
     // Create a new custem D3 node called "g"
@@ -75,17 +68,29 @@ function barCluster(agency) {
                         .duration(400)
                         .style("opacity", 0.7);
 
-                    for (job in staffer_orgs[`${one_person.staffer_id}`]) {
+                    // A list to hold the career history and location of one staffer as it's displayed
+                    const stafferCareerHistory = [];
+
+                    // Add each company the moused-over person has previously worked for on left margin
+                    for (let job in staffer_orgs[`${one_person.staffer_id}`]) {
+                        const yLocation = stafferLinesLocationStart[`${d.staffer_id}`][1] + 0 + ((job + 1) * career_history_text_spacing);
+                        const resumeOrgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
+                        const resumeOrgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
                         svgSelection.append("text")
                             .attr("x", 650)
-                            .attr("y", stafferLinesLocationStart[`${d.staffer_id}`][1] + 100 + ((job + 1) * career_history_text_spacing))
+                            .attr("y", yLocation)
                             .attr("text-anchor", "end")
                             .attr('class', "career_history")
                             .attr('id', "one_career_history")
                             .style("font-size", career_history_text)
-                            .html(truncate(`${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`, 28));
-                    }
+                            .html(truncate(resumeOrgName, 28));
 
+                        stafferCareerHistory.push({[`resumeOrgId`]: resumeOrgId, [`yLocation`]: yLocation});
+                    }
+                    console.log(stafferCareerHistory)
+                    for (let company of stafferCareerHistory) {
+                        organizations[company.resumeOrgId];
+                    }
                 }
             )
                 .on("mousemove", (d, i) => {
@@ -105,12 +110,6 @@ function barCluster(agency) {
                     svgSelection.selectAll(".career_history").remove();
                     }
                 );
-
-            // bars.on("mouseover", (d, i) => {
-            //     console.log(staffer_orgs[`${d.staffer_id}`]);
-            // });
-
-            // staffer_line_xy[one_person.staffer_id] = y_index * (minBarThickness + padding);
 
             y_index += 1;
         }
