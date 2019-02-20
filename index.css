@@ -143,3 +143,20 @@ line {
     font-size: 38.6364px;
     opacity: 1;
 }
+.jobsContainer {
+    font-family: Arial, san-serif;
+    background-color: red;
+    color: black;
+    font-size: 38.6364px;
+    opacity: 1;
+    text-align: end;
+}
+.jobsRow {
+    font-family: Arial, san-serif;
+    width: 700px;
+    height: 100px;
+    background-color: red;
+    color: black;
+    text-align: end;
+    z-index: 100000;
+}

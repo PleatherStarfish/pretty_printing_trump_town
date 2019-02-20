@@ -1,5 +1,12 @@
 let stafferLinesLocationStart = {};
 
+function truncate(string, length) {
+    if (string.length > length)
+        return string.substring(0,length)+' [...]';
+    else
+        return string;
+};
+
 function barCluster(agency) {
 
     // Create a new custem D3 node called "g"
@@ -57,10 +64,10 @@ function barCluster(agency) {
             bars.on("mouseover", (d, i) =>
 
                 {tooltip.html
-                    ("<div class=tip><strong><span id=name>" + d.name + "</span></strong><br>"
-                        + position + " (" + agency["agency_name"] + ") " + "<br><br>" + gradeLevel(d.grade_level) + "<br><br>" + (d.start_date ? d.start_date : "unknown") + " - " + (d.end_date ? d.end_date : "present") + "<br><br>" +
-                        d.linkedin_url + "</div>"
-                    );
+                ("<div class=tip><strong><span id=name>" + d.name + "</span></strong><br>"
+                    + position + " (" + agency["agency_name"] + ") " + "<br><br>" + gradeLevel(d.grade_level) + "<br><br>" + (d.start_date ? d.start_date : "unknown") + " - " + (d.end_date ? d.end_date : "present") + "<br><br>" +
+                    d.linkedin_url + "</div>"
+                );
 
                     tooltip.style("visibility", "visible")
                         .transition()
@@ -68,30 +75,15 @@ function barCluster(agency) {
                         .duration(400)
                         .style("opacity", 0.7);
 
-                    agency_cluster.append("foreignObject")
-                        .attr("x", 0)
-                        .attr("y", stafferLinesLocationStart[`${d.staffer_id}`][1])
-                            // + ((job + 1) * career_history_text_spacing))
-                        .attr('class', "career_history")
-                        .attr('id', "one_career_history")
-                        .style("font-size", career_history_text)
-                        .style("text-align", "right");
-                            // .style("width", 600)
-                            // .style("text-align", "right")
-                            // .style("position", "relative")
-                            // .each(d3.select(this).append('div').text((d) => "test"));
-                            // .html((d, i) => staffer_orgs[`${one_person.staffer_id}`]);
-
-                    let jobs = document.getElementById('one_career_history');
-                    for (job of staffer_orgs[`${one_person.staffer_id}`]) {
-                        let outerDiv = document.createElement("div");
-                        jobs.append(outerDiv);
-                            let newDiv = document.createElement("div");
-                            newDiv.style.width = "700px";
-                            newDiv.style.textAlign = "right";
-                            outerDiv.append(newDiv);
-                            let newContent = document.createTextNode(job.organization_name);
-                            newDiv.appendChild(newContent);
+                    for (job in staffer_orgs[`${one_person.staffer_id}`]) {
+                        svgSelection.append("text")
+                            .attr("x", 650)
+                            .attr("y", stafferLinesLocationStart[`${d.staffer_id}`][1] + 100 + ((job + 1) * career_history_text_spacing))
+                            .attr("text-anchor", "end")
+                            .attr('class', "career_history")
+                            .attr('id', "one_career_history")
+                            .style("font-size", career_history_text)
+                            .html(truncate(`${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`, 28));
                     }
 
                 }
@@ -103,14 +95,14 @@ function barCluster(agency) {
                 })
 
                 .on("mouseout", (d, i) => {
-                    tooltip
-                        .style("visibility", "hidden")
-                        .transition()
-                        .delay(0)
-                        .duration(300)
-                        .style("opacity", 0);
+                        tooltip
+                            .style("visibility", "hidden")
+                            .transition()
+                            .delay(0)
+                            .duration(300)
+                            .style("opacity", 0);
 
-                        agency_cluster.selectAll(".career_history").remove();
+                    svgSelection.selectAll(".career_history").remove();
                     }
                 );
 
