@@ -74,8 +74,8 @@ function barCluster(agency) {
                     // Add each company the moused-over person has previously worked for on left margin
                     for (let job in staffer_orgs[`${one_person.staffer_id}`]) {
                         const yLocation = stafferLinesLocationStart[`${d.staffer_id}`][1] + 0 + ((job + 1) * career_history_text_spacing);
-                        const resumeOrgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
-                        const resumeOrgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
+                        const orgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
+                        const orgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
                         svgSelection.append("text")
                             .attr("x", 650)
                             .attr("y", yLocation)
@@ -83,13 +83,20 @@ function barCluster(agency) {
                             .attr('class', "career_history")
                             .attr('id', "one_career_history")
                             .style("font-size", career_history_text)
-                            .html(truncate(resumeOrgName, 28));
+                            .html(truncate(orgName, 28));
 
-                        stafferCareerHistory.push({[`resumeOrgId`]: resumeOrgId, [`yLocation`]: yLocation});
+                        stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
                     }
-                    console.log(stafferCareerHistory)
+
                     for (let company of stafferCareerHistory) {
-                        organizations[company.resumeOrgId];
+                        for (staffer of organzation_ids[company.orgId]) {
+                            svgSelection.append("line")
+                                .attr('class', "career_history_lines")
+                                .attr("x1", 655)
+                                .attr("y1", company.yLocation)
+                                .attr("x2", stafferLinesLocationStart[staffer.staffer_id][0])
+                                .attr("y2", stafferLinesLocationStart[staffer.staffer_id][1]);
+                        }
                     }
                 }
             )
@@ -108,6 +115,7 @@ function barCluster(agency) {
                             .style("opacity", 0);
 
                     svgSelection.selectAll(".career_history").remove();
+                    svgSelection.selectAll(".career_history_lines").remove();
                     }
                 );
 
