@@ -42,15 +42,14 @@ function barCluster(agency) {
             bars.append("a")
                 .attr("xlink:href", function(d) {return d.linkedin_url})
                 .append("rect")
+                .attr('id', (d) => `${d.staffer_id}`)
+                .attr('class', "timeline_rows")
                 .attr("x", start_x + lhPadding)
                 .attr("y", y_index * (minBarThickness + padding))
                 .attr("height", minBarThickness)
                 .attr("width", end_x - start_x)
-                .attr("fill", (d, i) => d.staffer_id == 1032 ?
-                    "#ff00ff"
-                    :
-                    start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff"
-                )
+                // Mike Pence d.staffer_id == 1032
+                .attr("fill", (d, i) => start_x === linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff")
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
 
@@ -88,14 +87,25 @@ function barCluster(agency) {
                         stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
                     }
 
+                    const objLen = document.getElementsByClassName("timeline_rows").length;
+                    for (let i = 0; i < objLen; i++) {
+                        let obj = document.getElementsByClassName("timeline_rows")[i];
+                        obj.style.fill =  "#eaeaea";
+                    }
+
                     for (let company of stafferCareerHistory) {
+
                         for (staffer of organzation_ids[company.orgId]) {
                             svgSelection.append("line")
                                 .attr('class', "career_history_lines")
+                                .style('opacity', 0.5)
                                 .attr("x1", 655)
-                                .attr("y1", company.yLocation)
+                                .attr("y1", company.yLocation - 10)
                                 .attr("x2", stafferLinesLocationStart[staffer.staffer_id][0])
                                 .attr("y2", stafferLinesLocationStart[staffer.staffer_id][1]);
+
+                        const obj = document.getElementById(`${staffer.staffer_id}`);
+                        obj.style.fill =  "#ff00ff";
                         }
                     }
                 }
