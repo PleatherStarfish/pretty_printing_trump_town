@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b878998-e3f8-45da-bef6-597c8e889a33" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/js/functions_and_defs.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/functions_and_defs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/timeline.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/timeline.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -18,7 +20,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
+            <state relative-caret-position="45">
               <caret line="34" column="19" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="19" />
             </state>
           </provider>
@@ -27,8 +29,26 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/timeline.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-162">
-              <caret line="51" column="51" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
+            <state relative-caret-position="155">
+              <caret line="127" column="24" selection-start-line="127" selection-start-column="24" selection-end-line="132" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/organization.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="19" selection-start-column="6" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/staffer_org.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="246">
+              <caret line="41134" column="31" selection-start-line="41134" selection-start-column="31" selection-end-line="41138" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -36,8 +56,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/functions_and_defs.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="463">
-              <caret line="38" column="21" lean-forward="true" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="30" />
+            <state relative-caret-position="349">
+              <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -71,7 +91,15 @@
       <find>job</find>
       <find>newDiv</find>
       <find>career_history_text_spacing</find>
+      <find>490</find>
+      <find>green</find>
+      <find>Heidi</find>
+      <find>Hei</find>
+      <find>&quot;490&quot;</find>
       <find>stafferLinesLocationStart</find>
+      <find>style</find>
+      <find>id</find>
+      <find>console</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -89,8 +117,8 @@
         <option value="$PROJECT_DIR$/js/slider.js" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/index.css" />
-        <option value="$PROJECT_DIR$/js/functions_and_defs.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/functions_and_defs.js" />
         <option value="$PROJECT_DIR$/js/timeline.js" />
       </list>
     </option>
@@ -163,12 +191,12 @@
       <workItem from="1549822112315" duration="14419000" />
       <workItem from="1550208396890" duration="5342000" />
       <workItem from="1550418553601" duration="481000" />
-      <workItem from="1550609590654" duration="12954000" />
+      <workItem from="1550609590654" duration="21662000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69600000" />
+    <option name="totallyTimeSpent" value="78308000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1545" height="1027" extended-state="0" />
@@ -248,13 +276,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/staffer_org.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/event_lines.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="577">
@@ -269,13 +290,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/organization.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-19944">
-          <caret column="19" selection-start-column="6" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/organization_id.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -283,24 +297,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/organization.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="19" selection-start-column="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/staffer_org.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="246">
+          <caret line="41134" column="31" selection-start-line="41134" selection-start-column="31" selection-end-line="41138" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
+        <state relative-caret-position="45">
           <caret line="34" column="19" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/functions_and_defs.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="463">
-          <caret line="38" column="21" lean-forward="true" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="30" />
+        <state relative-caret-position="349">
+          <caret line="33" column="17" selection-start-line="33" selection-start-column="17" selection-end-line="33" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/timeline.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-162">
-          <caret line="51" column="51" selection-start-line="51" selection-start-column="51" selection-end-line="51" selection-end-column="51" />
+        <state relative-caret-position="155">
+          <caret line="127" column="24" selection-start-line="127" selection-start-column="24" selection-end-line="132" selection-end-column="49" />
         </state>
       </provider>
     </entry>

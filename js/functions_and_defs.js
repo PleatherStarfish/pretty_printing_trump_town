@@ -30,14 +30,13 @@ function gradeLevel( salary ) {
 function handleMouseOut(d, i) {
     // Use D3 to select element, change color back to normal
     d3.select(this)
-        .attr({fill: !d.start_date ? "#eaeaea" : "#ffccff"})
-        .attr({height: 2});
+        .attr({fill: !d.start_date ? "#eaeaea" : "#ffccff"});
+    console.log(d);
 }
 
 function handleMouseOver(d, i) {
     d3.select(this)
-        .attr({fill: "#ff00ff"})
-        .attr({height: 2});
+        .attr({fill: "#ff00ff"});
 }
 
 function truncate(string, length) {

@@ -37,20 +37,24 @@ function barCluster(agency) {
                 .enter()
                 .append("g");
 
-            stafferLinesLocationStart[one_person.staffer_id] = [(start_x + lhPadding), (y_index * (minBarThickness + padding))];
+            if (!(stafferLinesLocationStart[one_person.staffer_id])) {
+                stafferLinesLocationStart[one_person.staffer_id] = [[(start_x + lhPadding), (y_index * (minBarThickness + padding))]];
+            }
+            else {
+                stafferLinesLocationStart[one_person.staffer_id].push([(start_x + lhPadding), (y_index * (minBarThickness + padding))])
+            }
 
             bars.append("a")
                 .attr("xlink:href", function(d) {return d.linkedin_url})
                 .append("rect")
-                .attr('id', (d) => `${d.staffer_id}`)
-                .attr('class', "timeline_rows")
+                .attr('class', (d) => `timeline_rows staffer${d.staffer_id}`)
                 .attr("x", start_x + lhPadding)
                 .attr("y", y_index * (minBarThickness + padding))
                 .attr("height", minBarThickness)
                 .attr("width", end_x - start_x)
                 // Mike Pence d.staffer_id == 1032
                 .attr("fill", (d, i) => start_x === linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff")
-                .on("mouseover", handleMouseOver)
+                // .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
 
             bars.on("mouseover", (d, i) =>
@@ -67,45 +71,49 @@ function barCluster(agency) {
                         .duration(400)
                         .style("opacity", 0.7);
 
-                    // A list to hold the career history and location of one staffer as it's displayed
-                    const stafferCareerHistory = [];
+                    if (`${one_person.staffer_id}` in staffer_orgs) {
+                        // A list to hold the career history and location of one staffer as it's displayed
+                        const stafferCareerHistory = [];
+                        // Add each company the moused-over person has previously worked for on left margin
+                        for (let job in staffer_orgs[`${one_person.staffer_id}`]) {
+                            const yLocation = stafferLinesLocationStart[`${d.staffer_id}`][0][1] + 0 + ((job + 1) * career_history_text_spacing);
+                            const orgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
+                            const orgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
+                            svgSelection.append("text")
+                                .attr("x", 650)
+                                .attr("y", yLocation)
+                                .attr("text-anchor", "end")
+                                .attr('class', "career_history")
+                                .attr('id', "one_career_history")
+                                .style("font-size", career_history_text)
+                                .html(truncate(orgName, 25));
 
-                    // Add each company the moused-over person has previously worked for on left margin
-                    for (let job in staffer_orgs[`${one_person.staffer_id}`]) {
-                        const yLocation = stafferLinesLocationStart[`${d.staffer_id}`][1] + 0 + ((job + 1) * career_history_text_spacing);
-                        const orgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
-                        const orgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
-                        svgSelection.append("text")
-                            .attr("x", 650)
-                            .attr("y", yLocation)
-                            .attr("text-anchor", "end")
-                            .attr('class', "career_history")
-                            .attr('id', "one_career_history")
-                            .style("font-size", career_history_text)
-                            .html(truncate(orgName, 28));
+                            stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
+                        }
 
-                        stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
-                    }
+                        // Set all non-mouseover rows to grey
+                        const objLen = document.getElementsByClassName("timeline_rows").length;
+                        for (let i = 0; i < objLen; i++) {
+                            let obj = document.getElementsByClassName("timeline_rows")[i];
+                            obj.setAttribute("fill","#eaeaea");
+                        }
 
-                    const objLen = document.getElementsByClassName("timeline_rows").length;
-                    for (let i = 0; i < objLen; i++) {
-                        let obj = document.getElementsByClassName("timeline_rows")[i];
-                        obj.style.fill =  "#eaeaea";
-                    }
+                        for (let company of stafferCareerHistory) {
 
-                    for (let company of stafferCareerHistory) {
-
-                        for (staffer of organzation_ids[company.orgId]) {
-                            svgSelection.append("line")
-                                .attr('class', "career_history_lines")
-                                .style('opacity', 0.5)
-                                .attr("x1", 655)
-                                .attr("y1", company.yLocation - 10)
-                                .attr("x2", stafferLinesLocationStart[staffer.staffer_id][0])
-                                .attr("y2", stafferLinesLocationStart[staffer.staffer_id][1]);
-
-                        const obj = document.getElementById(`${staffer.staffer_id}`);
-                        obj.style.fill =  "#ff00ff";
+                            for (staffer of organzation_ids[company.orgId]) {
+                                svgSelection.append("line")
+                                    .attr('class', "career_history_lines")
+                                    .style('opacity', 0.5)
+                                    .attr("x1", 655)
+                                    .attr("y1", company.yLocation - 10)
+                                    .attr("x2", stafferLinesLocationStart[staffer.staffer_id][0][0])
+                                    .attr("y2", stafferLinesLocationStart[staffer.staffer_id][0][1]);
+                            }
+                        }
+                        let obj = document.getElementsByClassName(`staffer${d.staffer_id}`);
+                        console.log(obj);
+                        for (let clss of obj) {
+                            clss.setAttribute("fill", "#ff00ff");
                         }
                     }
                 }
@@ -124,8 +132,11 @@ function barCluster(agency) {
                             .duration(300)
                             .style("opacity", 0);
 
-                    svgSelection.selectAll(".career_history").remove();
-                    svgSelection.selectAll(".career_history_lines").remove();
+                        svgSelection.selectAll(".career_history").remove();
+                        svgSelection.selectAll(".career_history_lines").remove();
+
+                    d3.selectAll("rect")
+                            .attr("fill", (d, i) => start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff");
                     }
                 );
 
