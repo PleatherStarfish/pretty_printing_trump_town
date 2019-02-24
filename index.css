@@ -160,3 +160,24 @@ line {
     text-align: end;
     z-index: 100000;
 }
+#noSafari {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-width: 100vw;
+    min-height: 100vh;
+    font-size: 24px;
+    color: black;
+    z-index: 100;
+}
+#blur {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+    opacity: 0.9;
+    z-index: 50;
+}

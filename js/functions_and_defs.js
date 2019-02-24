@@ -31,7 +31,6 @@ function handleMouseOut(d, i) {
     // Use D3 to select element, change color back to normal
     d3.select(this)
         .attr({fill: !d.start_date ? "#eaeaea" : "#ffccff"});
-    console.log(d);
 }
 
 function handleMouseOver(d, i) {

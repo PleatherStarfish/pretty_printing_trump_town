@@ -37,14 +37,18 @@ function barCluster(agency) {
                 .enter()
                 .append("g");
 
+            // If nothing in the object with that staffer_id, then create the key and set it to an array of arrays
             if (!(stafferLinesLocationStart[one_person.staffer_id])) {
                 stafferLinesLocationStart[one_person.staffer_id] = [[(start_x + lhPadding), (y_index * (minBarThickness + padding))]];
             }
+            // else push a new sub-array onto the array of arrays
             else {
                 stafferLinesLocationStart[one_person.staffer_id].push([(start_x + lhPadding), (y_index * (minBarThickness + padding))])
             }
 
             bars.append("a")
+                .attr("onclick", "return false")
+                .attr("ondblclick", "location=this.href")
                 .attr("xlink:href", function(d) {return d.linkedin_url})
                 .append("rect")
                 .attr('class', (d) => `timeline_rows staffer${d.staffer_id}`)
@@ -54,7 +58,7 @@ function barCluster(agency) {
                 .attr("width", end_x - start_x)
                 // Mike Pence d.staffer_id == 1032
                 .attr("fill", (d, i) => start_x === linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff")
-                // .on("mouseover", handleMouseOver)
+                .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
 
             bars.on("mouseover", (d, i) =>
@@ -108,10 +112,16 @@ function barCluster(agency) {
                                     .attr("y1", company.yLocation - 10)
                                     .attr("x2", stafferLinesLocationStart[staffer.staffer_id][0][0])
                                     .attr("y2", stafferLinesLocationStart[staffer.staffer_id][0][1]);
+
+                                let obj = document.getElementsByClassName(`staffer${staffer.staffer_id}`);
+                                for (let clss of obj) {
+                                    clss.setAttribute("fill", "#ffb8ff");
+                                }
                             }
                         }
+
+                        // Set all lines that are the same person to the bright pink color
                         let obj = document.getElementsByClassName(`staffer${d.staffer_id}`);
-                        console.log(obj);
                         for (let clss of obj) {
                             clss.setAttribute("fill", "#ff00ff");
                         }
@@ -135,6 +145,7 @@ function barCluster(agency) {
                         svgSelection.selectAll(".career_history").remove();
                         svgSelection.selectAll(".career_history_lines").remove();
 
+                    // Reset to default color scheme
                     d3.selectAll("rect")
                             .attr("fill", (d, i) => start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff");
                     }
