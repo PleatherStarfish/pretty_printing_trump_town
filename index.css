@@ -3,8 +3,13 @@
     padding: 0;
 }
 
+html {
+    --sans-serif: Arial, Helvetica, sans-serif;
+    --serif: 'Lora', 'Palatino Linotype', serif;
+}
+
 h1 {
-    font-family: 'Lora', serif;
+    font-family: var(--serif);
     font-size: 60px;
     font-weight: bold;
     margin-bottom: 0.1em;
@@ -12,7 +17,7 @@ h1 {
     color: grey;
 }
 h2 {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     font-size: 22px;
     font-weight: normal;
     text-align: justify;
@@ -46,7 +51,7 @@ main {
     opacity: 0.5;
     pointer-events: none;
     width: 400px;
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     font-size: 13px;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -57,7 +62,7 @@ main {
 
 .tip #name {
     color: black;
-    font-family: 'Lora', san-serif;
+    font-family: 'Lora', serif;
     font-size: 30px;
 }
 line {
@@ -66,13 +71,13 @@ line {
     stroke-width: 1px;
 }
 .event_label {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     font-size: 38.6364px; /*Font size is set in JS, so must start at very specific float value*/
     opacity: 0.5;
 
 }
 .agency {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     font-size: 30px;
     opacity: 0.5;
 }
@@ -101,7 +106,7 @@ line {
 }
 
 .zoom {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     color: lightgrey;
     padding-bottom: 10px;
 }
@@ -138,13 +143,13 @@ line {
     cursor: pointer;
 }
 .career_history {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     color: black;
     font-size: 38.6364px;
     opacity: 1;
 }
 .jobsContainer {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     background-color: red;
     color: black;
     font-size: 38.6364px;
@@ -152,7 +157,7 @@ line {
     text-align: end;
 }
 .jobsRow {
-    font-family: Arial, san-serif;
+    font-family: var(--sans-serif);
     width: 700px;
     height: 100px;
     background-color: red;
@@ -163,6 +168,8 @@ line {
 #noSafari {
     position: fixed;
     display: flex;
+    font-family: var(--sans-serif);
+    font-color: lightgrey;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -180,4 +187,24 @@ line {
     background-color: white;
     opacity: 0.9;
     z-index: 50;
+    visibility: hidden;
+}
+.mouseover_for_career_hist {
+    position: absolute;
+    border: 1px solid lightgrey;
+    text-align: center;
+    font-size: 11pt;
+    padding: 20px;
+    font-family: var(--serif);
+    width: 160px;
+    color: lightgrey;
+    margin-top: 380px;
+    margin-left: 60px;
+    z-index: 500;
+}
+.fixed {
+    position: fixed;
+    margin-left: 60px;
+    margin-top: 30px;
+    top:0;
 }

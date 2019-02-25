@@ -75,6 +75,10 @@ function barCluster(agency) {
                         .duration(400)
                         .style("opacity", 0.7);
 
+                    $(document).ready(function(){
+                        $(".mouseover_for_career_hist").finish().fadeOut(300);
+                    });
+
                     if (`${one_person.staffer_id}` in staffer_orgs) {
                         // A list to hold the career history and location of one staffer as it's displayed
                         const stafferCareerHistory = [];
@@ -148,7 +152,11 @@ function barCluster(agency) {
                     // Reset to default color scheme
                     d3.selectAll("rect")
                             .attr("fill", (d, i) => start_x == linearScale(new Date("2017-1-19")) ? "#eaeaea" : "#ffccff");
-                    }
+
+                    $(document).ready(function(){
+                        $(".mouseover_for_career_hist").finish().delay(1000).fadeIn(1200);
+                    });
+                }
                 );
 
             y_index += 1;
