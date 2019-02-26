@@ -1,35 +1,59 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Pretty Printing Trump Town</title>
-  <meta charset="utf-8" />
-  <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
-  <link href="index.css" rel="stylesheet">
+    <title>Pretty Printing Trump Town</title>
+    <meta charset="utf-8" />
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
-  <script src="js/data.js" type="text/javascript"></script>
-  <!--<script src="data_old.js" type="text/javascript"></script>-->
-  <script src="js/organization.js" type="text/javascript"></script>
-  <script src="js/organization_id.js" type="text/javascript"></script>
-  <script src="js/staffer_org.js" type="text/javascript"></script>
-  <script src="js/functions_and_defs.js" type="text/javascript"></script>
-  <script src="js/timeline.js" type="text/javascript"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js" charset="utf-8" type="text/javascript"></script>
+    <script src="js/data.js" type="text/javascript"></script>
+    <!--<script src="data_old.js" type="text/javascript"></script>-->
+    <script src="js/organization.js" type="text/javascript"></script>
+    <script src="js/organization_id.js" type="text/javascript"></script>
+    <script src="js/staffer_org.js" type="text/javascript"></script>
+    <script src="js/functions_and_defs.js" type="text/javascript"></script>
+    <script src="js/timeline.js" type="text/javascript"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 </head>
 
 <body>
 
-<header id="header-menu">
+<div class="grid-container" id="header-menu">
+    <div class="grid-header">
+        <!--<header>-->
 
-  <h1 id=title>Pretty Printing Trump Town</h1><br>
-  <h2 id=subtitle>Tracking the career history of 2,724 White House staffers, cabinet members, and<br>
-    political appointees through one ProPublica dataset</h2>
-  <div class="slidecontainer" id="zoomslider">
-    <p class="zoom">Zoom: <span id="demo"></span>%</p>
-    <input type="range" min="1" max="100" value="70" class="slider" id="myRange">
-  </div>
+            <h1 id=title>Pretty Printing Trump Town</h1><br>
+            <h2 id=subtitle>Tracking the career history of 2,724 White House staffers, cabinet members, and<br>
+                political appointees through one ProPublica dataset</h2>
+            <p>Following Donald J. Trump’s inauguration as the 45th President of the United States in
+                January 2017, the new administration’s political appointments made news for several reasons.
+                Many positions were initially left unfilled and those that were filled drew heavily from Trump’s
+                own organizations and a small number of conservative organizations and policy think tanks, such
+                as the Heritage Foundation.
+            </p>
+            <br>
+            <p>Using <a href="https://projects.propublica.org/trump-town/">Trump Town</a>,, a data set compiled by ProPublic from a number
+                of freely available government source, this tool attempts to allow the user to better understand
+                and unpack the public service record and career histories of 2,724 Trump Administration
+                appointees.
+            </p>
+        <!--</header>-->
+    </div>
+    <div class="grid-key">
+        <p><b><i>Hover</i></b> over bars to see staffer's info and work history</p>
+        <p><b><i>Click</i></b> on bars to select a particular staffer and view details.</p>
+        <p><b><i>Double Click</i></b> on bars to follow link to staffer's LinkedIn page (if any).</p>
+    </div>
+    <div class="grid-zoom">
+        <div class="slidecontainer" id="zoomslider">
+            <p class="zoom">Zoom: <span id="demo"></span>%</p>
+            <input type="range" min="1" max="100" value="70" class="slider" id="myRange">
+        </div>
+    </div>
+</div>
 
-</header>
+
 
 <div id="blur"><div id="noSafari"></div></div>
 
@@ -37,34 +61,34 @@
 
 <script>
 
-  "use strict";
+    "use strict";
 
-  // test for Safari thanks to bfred.it at https://stackoverflow.com/questions/7944460/detect-safari-browser
-  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    // test for Safari thanks to bfred.it at https://stackoverflow.com/questions/7944460/detect-safari-browser
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
-  if (isSafari) {
+    if (isSafari) {
 
-    let textdiv = document.getElementById('noSafari');
-    textdiv.innerHTML += 'Please use a recent version of Chrome or Firefox to view Pretty Printing Trump Town';
-    let blur = document.getElementById('blur');
-    blur.style.visibility = "visible";
-  }
-  let bodySelection = d3.select("body");
-  let svgSelection = bodySelection
-          .append("main")
-          .attr("width", w)
-          .attr("height", h)
-          .attr('id', "container")
-          .attr('class', "svg-container")
-          .append("svg")
-          .attr("width", w)
-          .attr("height", h)
-          .attr("preserveAspectRatio", "xMinYMin meet")
-          .attr("viewBox", `0 0 ${w} ${h}`)
-          .classed("svg-content", true);
-  Object.entries(data).forEach(
-          ([key, value]) => barCluster(value)
-  );
+        let textdiv = document.getElementById('noSafari');
+        textdiv.innerHTML += 'Please use a recent version of Chrome or Firefox to view Pretty Printing Trump Town';
+        let blur = document.getElementById('blur');
+        blur.style.visibility = "visible";
+    }
+    let bodySelection = d3.select("body");
+    let svgSelection = bodySelection
+        .append("main")
+        .attr("width", w)
+        .attr("height", h)
+        .attr('id', "container")
+        .attr('class', "svg-container")
+        .append("svg")
+        .attr("width", w)
+        .attr("height", h)
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", `0 0 ${w} ${h}`)
+        .classed("svg-content", true);
+    Object.entries(data).forEach(
+        ([key, value]) => barCluster(value)
+    );
 </script>
 <script type="text/javascript" src="js/event_lines.js"></script>
 <script type="text/javascript" src="js/slider.js"></script>

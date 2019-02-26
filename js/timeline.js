@@ -94,7 +94,7 @@ function barCluster(agency) {
                                 .attr('class', "career_history")
                                 .attr('id', "one_career_history")
                                 .style("font-size", career_history_text)
-                                .html(truncate(orgName, 25));
+                                .html(truncate(orgName, 31));
 
                             stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
                         }

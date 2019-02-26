@@ -2,18 +2,24 @@
     margin: 0;
     padding: 0;
 }
-
 html {
     --sans-serif: Arial, Helvetica, sans-serif;
     --serif: 'Lora', 'Palatino Linotype', serif;
 }
-
+a {
+    color: #FFAEFF;
+    text-decoration: none;
+}
+a:hover {
+    color: #ff00ff;
+    text-decoration: underline;
+}
 h1 {
     font-family: var(--serif);
     font-size: 60px;
     font-weight: bold;
     margin-bottom: 0.1em;
-    padding: 20px 20px 0 0;
+    padding: 0px 20px 0 0;
     color: grey;
 }
 h2 {
@@ -26,22 +32,77 @@ h2 {
     color: grey;
     line-height: 1.6em;
 }
-
+p {
+    font-family: var(--sans-serif);
+    line-height: 1.6em;
+    color: grey;
+}
 header {
-    position: fixed;
-    width: 810px;
+    /*position: fixed;*/
+    width: 1000px;
     margin-left: 40px;
 }
-
 body.scrolled #header-menu {
     opacity: 0;
     transition: opacity .8s;
 }
-
 main {
-    margin-top: 350px;
+    margin-top: 500px;
     margin-left: 40px;
 }
+line {
+    fill: none;
+    stroke: #000;
+    stroke-width: 1px;
+}
+
+b i {
+    color: #70BEBE;
+}
+
+/* ====== GRID ====== */
+
+.grid-container {
+    position: fixed;
+    display: grid;
+    margin-top: 20px;
+    margin-left: 40px;
+    grid-template-columns: 830px auto;
+    grid-template-rows: auto auto auto;
+    grid-gap: 30px;
+    height: 500px;
+    grid-template-areas:
+            "header key"
+            "zoom   .  ";
+}
+@media only screen and (max-width: 1200px) {
+    .grid-container {
+        position: fixed;
+        display: grid;
+        margin-top: 20px;
+        margin-left: 40px;
+        grid-template-columns: auto 1fr;
+        grid-template-rows: auto auto auto;
+        grid-gap: 30px;
+        height: 500px;
+        grid-template-areas:
+                "header header"
+                "key    key"
+                "zoom   zoom";
+    }
+}
+.grid-header {
+    grid-area: header;
+}
+.grid-key {
+    grid-area: key;
+    padding-top: 10px;
+}
+.grid-zoom {
+    grid-area: zoom;
+}
+
+/* ====== TOOLTIP ====== */
 
 .tooltip {
     position: absolute;
@@ -64,11 +125,6 @@ main {
     color: black;
     font-family: 'Lora', serif;
     font-size: 30px;
-}
-line {
-    fill: none;
-    stroke: #000;
-    stroke-width: 1px;
 }
 .event_label {
     font-family: var(--sans-serif);
@@ -101,9 +157,11 @@ line {
 .svg-content {
     display: inline-block;
     position: absolute;
-    top: 0;
+    top: 80px;
     left: 0;
 }
+
+/* ====== ZOOM SLIDER SETTINGS ====== */
 
 .zoom {
     font-family: var(--sans-serif);
@@ -112,7 +170,7 @@ line {
 }
 
 .slidecontainer {
-    position: absolute;
+    /*position: absolute;*/
     margin: 0;
     width: 810px;
 }
@@ -142,6 +200,9 @@ line {
     background: #ffaeff;
     cursor: pointer;
 }
+
+/* ====== CAREER HISTORY TEXT ====== */
+
 .career_history {
     font-family: var(--sans-serif);
     color: black;
@@ -165,6 +226,28 @@ line {
     text-align: end;
     z-index: 100000;
 }
+.mouseover_for_career_hist {
+    position: absolute;
+    border: 1px solid lightgrey;
+    text-align: center;
+    font-size: 11pt;
+    padding: 20px;
+    font-family: var(--serif);
+    width: 160px;
+    color: lightgrey;
+    margin-top: 600px;
+    margin-left: 60px;
+    z-index: 500;
+}
+.fixed {
+    position: fixed;
+    margin-left: 60px;
+    margin-top: 30px;
+    top:0;
+}
+
+/* ====== BROWSER WARNINGS ====== */
+
 #noSafari {
     position: fixed;
     display: flex;
@@ -188,23 +271,4 @@ line {
     opacity: 0.9;
     z-index: 50;
     visibility: hidden;
-}
-.mouseover_for_career_hist {
-    position: absolute;
-    border: 1px solid lightgrey;
-    text-align: center;
-    font-size: 11pt;
-    padding: 20px;
-    font-family: var(--serif);
-    width: 160px;
-    color: lightgrey;
-    margin-top: 380px;
-    margin-left: 60px;
-    z-index: 500;
-}
-.fixed {
-    position: fixed;
-    margin-left: 60px;
-    margin-top: 30px;
-    top:0;
 }

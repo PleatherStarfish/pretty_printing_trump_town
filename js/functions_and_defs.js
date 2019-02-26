@@ -7,7 +7,6 @@ const lhPadding           = 700;
 let y_index               = 15;
 let career_history_text   = 38.6364;
 let career_history_text_spacing = 5;
-// let staffer_line_xy       = {};
 
 
 const linearScale = d3.time.scale()
