@@ -56,6 +56,14 @@ line {
     stroke-width: 1px;
 }
 
+ul {
+    font-family: var(--sans-serif);
+    line-height: 1.6em;
+    color: grey;
+    margin-left: 30px;
+    word-wrap: break-word;
+}
+
 b i {
     color: #70BEBE;
 }
@@ -67,13 +75,14 @@ b i {
     display: grid;
     margin-top: 20px;
     margin-left: 40px;
-    grid-template-columns: 830px auto;
+    grid-template-columns: 820px 520px;
     grid-template-rows: auto auto auto;
-    grid-gap: 30px;
+    grid-column-gap: 40px;
+    grid-row-gap: 0px;
     height: 500px;
     grid-template-areas:
             "header key"
-            "zoom   .  ";
+            "header zoom";
 }
 @media only screen and (max-width: 1200px) {
     .grid-container {
@@ -81,9 +90,8 @@ b i {
         display: grid;
         margin-top: 20px;
         margin-left: 40px;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: 1380px;
         grid-template-rows: auto auto auto;
-        grid-gap: 30px;
         height: 500px;
         grid-template-areas:
                 "header header"
@@ -157,15 +165,21 @@ b i {
 .svg-content {
     display: inline-block;
     position: absolute;
-    top: 80px;
+    top: 0px;
     left: 0;
+}
+
+@media only screen and (max-width: 1200px) {
+    .svg-content {
+        top: 200px;
+    }
 }
 
 /* ====== ZOOM SLIDER SETTINGS ====== */
 
 .zoom {
     font-family: var(--sans-serif);
-    color: lightgrey;
+    color: grey;
     padding-bottom: 10px;
 }
 
@@ -178,7 +192,7 @@ b i {
     -webkit-appearance: none;
     width: 30%;
     height: 10px;
-    background: #F0F0F0;
+    background: #D8D8D8;
     outline: none;
     opacity: 0.7;
     -webkit-transition: .2s;
@@ -228,16 +242,21 @@ b i {
 }
 .mouseover_for_career_hist {
     position: absolute;
-    border: 1px solid lightgrey;
+    border: 1px solid #D8D8D8;
     text-align: center;
     font-size: 11pt;
     padding: 20px;
     font-family: var(--serif);
     width: 160px;
-    color: lightgrey;
-    margin-top: 600px;
+    color: #D8D8D8;
+    margin-top: 510px;
     margin-left: 60px;
     z-index: 500;
+}
+@media only screen and (max-width: 1200px) {
+    .mouseover_for_career_hist {
+        margin-top: 710px;
+    }
 }
 .fixed {
     position: fixed;
@@ -252,7 +271,7 @@ b i {
     position: fixed;
     display: flex;
     font-family: var(--sans-serif);
-    font-color: lightgrey;
+    font-color: #D8D8D8;
     flex-direction: column;
     justify-content: center;
     align-items: center;
