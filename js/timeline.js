@@ -47,8 +47,8 @@ function barCluster(agency) {
             }
 
             bars.append("a")
-                .attr("onclick", "return false")
-                .attr("ondblclick", "location=this.href")
+                // .attr("onclick", "return false")
+                // .attr("ondblclick", "location=this.href")
                 .attr("xlink:href", function(d) {return d.linkedin_url})
                 .append("rect")
                 .attr('class', (d) => `timeline_rows staffer${d.staffer_id}`)
@@ -94,7 +94,7 @@ function barCluster(agency) {
                                 .attr('class', "career_history")
                                 .attr('id', "one_career_history")
                                 .style("font-size", career_history_text)
-                                .html(truncate(orgName, 31));
+                                .html(truncate(orgName, 28));
 
                             stafferCareerHistory.push({['orgId']: orgId, ['yLocation']: yLocation});
                         }
@@ -172,3 +172,5 @@ function barCluster(agency) {
 
     y_index += agencyPadding;
 }
+
+// Pence - 10321

@@ -109,6 +109,11 @@ b i {
 .grid-zoom {
     grid-area: zoom;
 }
+@media only screen and (max-width: 1200px) {
+    .grid-zoom {
+        padding-top: 20px;
+    }
+}
 
 /* ====== TOOLTIP ====== */
 
