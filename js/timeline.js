@@ -1,5 +1,7 @@
 let stafferLinesLocationStart = {};
 
+const vips = [274, 56, 878, 103, 891, 1314, 949, 1129, 414, 1032] // Important appointees by id
+
 function barCluster(agency) {
 
     // Create a new custem D3 node called "g"
@@ -24,7 +26,7 @@ function barCluster(agency) {
             .enter()
             .append("g");
 
-        for (let person in agency["positions"][position]){
+        for (let person in agency["positions"][position]) {
 
             const one_person = agency["positions"][position][person];
             // staffer_line_xy[one_person.staffer_id] = y_index;
@@ -85,8 +87,8 @@ function barCluster(agency) {
                         // Add each company the moused-over person has previously worked for on left margin
                         for (let job in staffer_orgs[`${one_person.staffer_id}`]) {
                             const yLocation = stafferLinesLocationStart[`${d.staffer_id}`][0][1] + 0 + ((job + 1) * career_history_text_spacing);
-                            const orgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`
-                            const orgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`
+                            const orgId = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_id}`;
+                            const orgName = `${staffer_orgs[`${one_person.staffer_id}`][job].organization_name}`;
                             svgSelection.append("text")
                                 .attr("x", 650)
                                 .attr("y", yLocation)

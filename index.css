@@ -47,7 +47,7 @@ body.scrolled #header-menu {
     transition: opacity .8s;
 }
 main {
-    margin-top: 500px;
+    margin-top: 600px;
     margin-left: 40px;
 }
 line {
@@ -75,11 +75,11 @@ b i {
     display: grid;
     margin-top: 20px;
     margin-left: 40px;
-    grid-template-columns: 820px 520px;
+    grid-template-columns: 60vw 30vw;
     grid-template-rows: auto auto auto;
     grid-column-gap: 40px;
-    grid-row-gap: 0px;
-    height: 500px;
+    grid-row-gap: 0;
+    height: 630px;
     grid-template-areas:
             "header key"
             "header zoom";
@@ -90,7 +90,7 @@ b i {
         display: grid;
         margin-top: 20px;
         margin-left: 40px;
-        grid-template-columns: 1380px;
+        grid-template-columns: 45vw 45vw;
         grid-template-rows: auto auto auto;
         height: 500px;
         grid-template-areas:
@@ -170,7 +170,7 @@ b i {
 .svg-content {
     display: inline-block;
     position: absolute;
-    top: 0px;
+    top: 0;
     left: 0;
 }
 
@@ -254,13 +254,13 @@ b i {
     font-family: var(--serif);
     width: 160px;
     color: #D8D8D8;
-    margin-top: 510px;
+    margin-top: 610px;
     margin-left: 60px;
     z-index: 500;
 }
 @media only screen and (max-width: 1200px) {
     .mouseover_for_career_hist {
-        margin-top: 710px;
+        margin-top: 810px;
     }
 }
 .fixed {

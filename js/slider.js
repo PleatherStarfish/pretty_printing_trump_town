@@ -29,4 +29,4 @@ slider.oninput = function() {
     }
     career_history_text         = convertRange(this.value,[1,100],[70,25]);
     career_history_text_spacing = convertRange(this.value,[1,100],[10,3]);
-}
+};
