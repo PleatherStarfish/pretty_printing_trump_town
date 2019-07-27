@@ -1,5 +1,4 @@
 $(document).ready(function () {
-
     jQuery(function ($) {
         $('.timeline_rows').click(function () {
             return false;
@@ -8,4 +7,4 @@ $(document).ready(function () {
             return false;
         });
     });
-}
+});

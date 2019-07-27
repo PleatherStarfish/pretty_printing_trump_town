@@ -63,6 +63,14 @@ function barCluster(agency) {
                 .on("mouseover", handleMouseOver)
                 .on("mouseout", handleMouseOut);
 
+            if (vips.includes(one_person.staffer_id)) {
+                bars.append("circle")
+                    .attr("cx", start_x + lhPadding)
+                    .attr("cy", y_index * (minBarThickness + padding))
+                    .attr("r", 10)
+                    .attr("fill", "magenta")
+            }
+
             bars.on("mouseover", (d, i) =>
 
                 {tooltip.html
@@ -173,6 +181,7 @@ function barCluster(agency) {
         .attr("y2", y_index * (minBarThickness + padding) + 15);
 
     y_index += agencyPadding;
+
 }
 
 // Pence - 10321
